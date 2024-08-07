@@ -1,0 +1,51 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Высота экрана */
+  width: 1440px; /* Максимальная ширина контейнера */
+  background-color: white;
+  margin: 0 auto;
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: #00796b;
+  padding: 19px 32px;
+  width: 100%;
+  height: 80px;
+  margin: 0 auto;
+  justify-content: center;
+
+  .searchInput {
+    width: 912px;
+    height: 42px;
+    background-color: #F2F2F2;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .searchButton {
+    height: 42px;
+  }
+}
+
+.welcomeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.welcome {
+  width: 416px;
+  height: 66px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 65.78px;
+  letter-spacing: 0.17px;
+  color: #4F4F4F;
+  text-align: center;
+}
