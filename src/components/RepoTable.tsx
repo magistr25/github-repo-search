@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/store';
-import { fetchRepos } from '../redux/reposSlice';
+import {fetchRepos, setPage, setRowsPerPage, setSortDirection, setSortField} from '../redux/reposSlice';
 import {
     Table,
     TableBody,
@@ -24,33 +24,30 @@ const CustomTableSortLabel = styled(TableSortLabel)({
 });
 
 const RepoTable: React.FC = () => {
+    const dispatch = useAppDispatch();
     const repos = useAppSelector((state) => state.repos.repos);
     const totalCount = useAppSelector((state) => state.repos.total_count);
     const searchQuery = useAppSelector((state) => state.repos.searchQuery);
-    const dispatch = useAppDispatch();
-
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [sortField, setSortField] = useState<'name' | 'stargazers_count' | 'forks_count' | 'updated_at'>('name');
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const page = useAppSelector((state) => state.repos.page);
+    const rowsPerPage = useAppSelector((state) => state.repos.rowsPerPage);
+    const sortField = useAppSelector((state) => state.repos.sortField);
+    const sortDirection = useAppSelector((state) => state.repos.sortDirection);
 
     const handleSort = (field: 'name' | 'stargazers_count' | 'forks_count' | 'updated_at') => {
         const isAsc = sortField === field && sortDirection === 'asc';
-        setSortDirection(isAsc ? 'desc' : 'asc');
-        setSortField(field);
-        setPage(0);  // Сброс страницы на первую
+        dispatch(setSortDirection(isAsc ? 'desc' : 'asc'));
+        dispatch(setSortField(field));
         dispatch(fetchRepos({ query: searchQuery, sort: field, direction: isAsc ? 'desc' : 'asc', page: 0, rowsPerPage }));
     };
 
     const handlePageChange = (event: unknown, newPage: number) => {
-        setPage(newPage);
+        dispatch(setPage(newPage));
         dispatch(fetchRepos({ query: searchQuery, sort: sortField, direction: sortDirection, page: newPage, rowsPerPage }));
     };
 
     const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newRowsPerPage = parseInt(event.target.value, 10);
-        setRowsPerPage(newRowsPerPage);
-        setPage(0);  // Сброс страницы на первую
+        dispatch(setRowsPerPage(newRowsPerPage));
         dispatch(fetchRepos({ query: searchQuery, sort: sortField, direction: sortDirection, page: 0, rowsPerPage: newRowsPerPage }));
     };
 
