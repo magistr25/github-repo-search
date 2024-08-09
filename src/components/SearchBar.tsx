@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useAppDispatch } from '../redux/store';
-import { fetchRepos } from '../redux/reposSlice';
+import { fetchRepos, resetRepos } from '../redux/reposSlice';
 import styles from '../styles/SearchBar.module.scss';
 
 interface SearchBarProps {
@@ -13,7 +13,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     const dispatch = useAppDispatch();
 
     const handleSearch = () => {
-        dispatch(fetchRepos({ query, sort: 'stars', direction: 'desc', page: 0, rowsPerPage: 10 }));
+        if (query.trim() === '') {
+            dispatch(resetRepos());
+        } else {
+            dispatch(fetchRepos({ query, sort: 'stars', direction: 'desc', page: 0, rowsPerPage: 10 }));
+        }
         onSearch(); // Вызов функции, переданной через пропсы
     };
 
@@ -47,4 +51,3 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 };
 
 export default SearchBar;
-

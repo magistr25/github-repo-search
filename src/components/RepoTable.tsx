@@ -25,10 +25,10 @@ interface Repo {
     updated_at: string;
 }
 
-// Создаем стилизованный компонент для TableSortLabel с измененной позицией стрелки
+// Создаем стилизованный компонент для TableSortLabel
 const CustomTableSortLabel = styled(TableSortLabel)({
     display: 'flex',
-    flexDirection: 'row-reverse', // Изменяем порядок элементов: стрелка слева, текст справа
+    flexDirection: 'row-reverse',
     justifyContent: 'flex-end',
     alignItems: 'center',
 });
@@ -48,23 +48,23 @@ const RepoTable: React.FC = () => {
         setSortDirection(isAsc ? 'desc' : 'asc');
         setSortField(field);
         setPage(0);
-        dispatch(fetchRepos({ query: 'github-repo-search', sort: field, direction: isAsc ? 'desc' : 'asc', page: 0, rowsPerPage }));
+        dispatch(fetchRepos({ query: '', sort: field, direction: isAsc ? 'desc' : 'asc', page: 0, rowsPerPage }));
     };
 
     const handlePageChange = (event: unknown, newPage: number) => {
         setPage(newPage);
-        dispatch(fetchRepos({ query: 'github-repo-search', sort: sortField, direction: sortDirection, page: newPage, rowsPerPage }));
+        dispatch(fetchRepos({ query: '', sort: sortField, direction: sortDirection, page: newPage, rowsPerPage }));
     };
 
     const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newRowsPerPage = parseInt(event.target.value, 10);
         setRowsPerPage(newRowsPerPage);
         setPage(0);
-        dispatch(fetchRepos({ query: 'github-repo-search', sort: sortField, direction: sortDirection, page: 0, rowsPerPage: newRowsPerPage }));
+        dispatch(fetchRepos({ query: '', sort: sortField, direction: sortDirection, page: 0, rowsPerPage: newRowsPerPage }));
     };
 
     useEffect(() => {
-        dispatch(fetchRepos({ query: 'github-repo-search', sort: sortField, direction: sortDirection, page, rowsPerPage }));
+        dispatch(fetchRepos({ query: '', sort: sortField, direction: sortDirection, page, rowsPerPage }));
     }, [dispatch, page, rowsPerPage, sortField, sortDirection]);
 
     return (
@@ -121,7 +121,7 @@ const RepoTable: React.FC = () => {
                             repos.map((repo) => (
                                 <TableRow key={repo.id} className={styles.tableRow}>
                                     <TableCell className={styles.tableCell}>{repo.name}</TableCell>
-                                    <TableCell className={styles.tableCell}>{repo.language}</TableCell>
+                                    <TableCell className={styles.tableCell}>{repo.language || 'Не указан'}</TableCell>
                                     <TableCell className={styles.tableCell}>{repo.forks_count}</TableCell>
                                     <TableCell className={styles.tableCell}>{repo.stargazers_count}</TableCell>
                                     <TableCell className={styles.tableCell}>{new Date(repo.updated_at).toLocaleDateString()}</TableCell>

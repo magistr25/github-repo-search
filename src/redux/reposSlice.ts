@@ -20,7 +20,7 @@ interface ReposState {
 
 // Начальное состояние
 const initialState: ReposState = {
-    repos: [] as Repo[],  // Ensure it's an array
+    repos: [],
     status: 'idle',
     total_count: 0,
 };
@@ -29,29 +29,51 @@ const initialState: ReposState = {
 export const fetchRepos = createAsyncThunk(
     'repos/fetchRepos',
     async ({ query, sort, direction, page, rowsPerPage }:
-               { query: string, sort: string, direction: 'asc' | 'desc', page: number, rowsPerPage: number }) => {
-        const response = await axios.get(`https://api.github.com/search/repositories`, {
-            params: {
-                q: query,
-                sort: sort,
-                order: direction,
-                per_page: rowsPerPage,
-                page: page + 1,
-            },
-            headers: {
-                Accept: 'application/vnd.github+json',
-                'User-Agent': 'magistr25'
-            },
-        });
+               { query: string, sort: string, direction: 'asc' | 'desc', page: number, rowsPerPage: number },
+           { rejectWithValue }) => {
+        if (!query.trim()) {
+            // Если запрос пустой, возвращаем пустой массив и нулевой счетчик
+            return { items: [], total_count: 0 };
+        }
 
-        return { items: response.data.items, total_count: response.data.total_count };
+        try {
+            const response = await axios.get(`https://api.github.com/search/repositories`, {
+                params: {
+                    q: query,
+                    sort: sort,
+                    order: direction,
+                    per_page: rowsPerPage,
+                    page: page + 1,
+                },
+                headers: {
+                    Accept: 'application/vnd.github+json',
+                    'User-Agent': 'magistr25'
+                },
+            });
+
+            return { items: response.data.items, total_count: response.data.total_count };
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                // Если ошибка пришла от axios, мы можем безопасно получить доступ к error.response
+                return rejectWithValue(error.response?.data);
+            } else {
+                // Если ошибка неизвестного типа, просто отклоняем с сообщением
+                return rejectWithValue('An unknown error occurred');
+            }
+        }
     }
 );
 
 const reposSlice = createSlice({
     name: 'repos',
     initialState,
-    reducers: {},
+    reducers: {
+        resetRepos: (state) => {
+            state.repos = [];
+            state.total_count = 0;
+            state.status = 'idle';
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchRepos.pending, (state) => {
@@ -59,7 +81,7 @@ const reposSlice = createSlice({
             })
             .addCase(fetchRepos.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.repos = action.payload.items || [];  // Ensure it defaults to an empty array if no items
+                state.repos = action.payload.items || [];
                 state.total_count = action.payload.total_count;
             })
             .addCase(fetchRepos.rejected, (state) => {
@@ -68,4 +90,8 @@ const reposSlice = createSlice({
     },
 });
 
+export const { resetRepos } = reposSlice.actions;
+
 export default reposSlice.reducer;
+
+
