@@ -4,12 +4,17 @@ import { useAppDispatch } from '../redux/store';
 import { fetchRepos } from '../redux/reposSlice';
 import styles from '../styles/SearchBar.module.scss';
 
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+    onSearch: () => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     const [query, setQuery] = useState('');
     const dispatch = useAppDispatch();
 
     const handleSearch = () => {
         dispatch(fetchRepos({ query, sort: 'stars', direction: 'desc', page: 0, rowsPerPage: 10 }));
+        onSearch(); // Вызов функции, переданной через пропсы
     };
 
     return (
@@ -42,3 +47,4 @@ const SearchBar: React.FC = () => {
 };
 
 export default SearchBar;
+

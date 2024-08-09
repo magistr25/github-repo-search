@@ -40,8 +40,8 @@ const RepoTable: React.FC = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [sortField, setSortField] = useState<'name' | 'stargazers_count' | 'forks_count' | 'updated_at'>('stargazers_count');
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+    const [sortField, setSortField] = useState<'name' | 'stargazers_count' | 'forks_count' | 'updated_at'>('name');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
     const handleSort = (field: 'name' | 'stargazers_count' | 'forks_count' | 'updated_at') => {
         const isAsc = sortField === field && sortDirection === 'asc';

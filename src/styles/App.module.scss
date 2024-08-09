@@ -52,3 +52,18 @@
   text-align: center;
   background-color: rgb(245, 245, 245)
 }
+.welcomeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px); /* Высота экрана минус высота полосы поиска */
+}
+
+.welcome {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 66px;
+  text-align: center;
+  color: rgba(79, 79, 79, 1);
+}
