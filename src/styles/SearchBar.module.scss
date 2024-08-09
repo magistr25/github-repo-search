@@ -15,6 +15,7 @@
     height: 42px;
     background-color: #F2F2F2;
     border-radius: 4px;
+    position: relative;
 
   }
 
@@ -31,11 +32,13 @@
   }
 
   .inputLabel {
+    position: absolute;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 400;
     font-style: italic;
     color: #828282;
+    top: -4px;
 
     letter-spacing: 0.17px;
     display: flex;
