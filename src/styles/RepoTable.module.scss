@@ -20,9 +20,9 @@ width: 912px;
 .tableCell {
   width: 182.4px; /* Ширина ячеек */
   height: 56px; /* Высота ячеек */
-  padding: 0px 10px; /* Отступы */
+  padding: 0 10px; /* Отступы */
   box-sizing: border-box;
-}
+
 .tablePagination {
   position: absolute;
   bottom: 0;
@@ -36,5 +36,5 @@ width: 912px;
 .resultsHeading {
   padding: 24px 0;
   color: rgba(0, 0, 0, 0.87);
-
+}
 }
