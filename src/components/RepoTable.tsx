@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/store';
-import {fetchRepos, setPage, setRowsPerPage, setSortDirection, setSortField} from '../redux/reposSlice';
+import { fetchRepos, setPage, setRowsPerPage, setSortDirection, setSortField } from '../redux/reposSlice';
 import {
     Table,
     TableBody,
@@ -122,16 +122,18 @@ const RepoTable: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
-                component="div"
-                count={totalCount}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-                className={styles.tablePagination}
-            />
+            <div className={styles.tablePaginationContainer}>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 50]}
+                    component="div"
+                    count={totalCount}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                    className={styles.tablePagination}
+                />
+            </div>
         </>
     );
 };

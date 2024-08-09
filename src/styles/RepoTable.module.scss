@@ -1,9 +1,11 @@
 .repoTable {
   width: 100%;
   padding: 0 20px 0 32px;
-
   position: relative;
   border: none;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; // высота контейнера на полный экран
 
   .resultsHeading {
     margin: 24px 0;
@@ -11,9 +13,20 @@
   }
 }
 
+.tableContainer {
+  flex: 1;
+  overflow-y: auto; // вертикальная прокрутка для таблицы
+}
+
+.tableHead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1000; // шапка остается видимой при прокрутке
+}
+
 .tableBody {
   position: relative;
-
 }
 
 .tableRow {
@@ -25,34 +38,35 @@
     transition: background-color 0.3s ease;
   }
 }
+
 .tableCell {
   width: 182.4px;
   height: 56px;
   padding: 0 10px;
   box-sizing: border-box;
+  border-right: none !important;
+  border-left: none !important;
+}
+
+.tablePaginationContainer {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  background-color: white;
+  bottom: 43px;
+  right: 480px; // Сдвигаем элемент к правому краю экрана
+  z-index: 1000;
+
 
 }
 
 .tablePagination {
-  display: block;
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  margin-right: 480px;
-  width: calc(1440px - 480px);
-  background-color: white;
-  z-index: 1000;
-  padding: 10px 20px;
-  box-sizing: border-box;
-
+  margin-left: 520px;
 }
-.repoTable,
+
+
 .MuiTableContainer-root,
 .MuiTable-root {
   border-right: none;
   border-left: none;
-}
-.tableCell {
-  border-right: none !important;
-  border-left: none !important;
 }
