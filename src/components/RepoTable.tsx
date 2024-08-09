@@ -133,18 +133,19 @@ const RepoTable: React.FC = () => {
                             </TableRow>
                         )}
                     </TableBody>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 50]}
-                        component="div"
-                        count={totalCount}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handlePageChange}
-                        onRowsPerPageChange={handleRowsPerPageChange}
-                        className={styles.tablePagination}
-                    />
+
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                component="div"
+                count={totalCount}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                className={styles.tablePagination}
+            />
         </>
     );
 };

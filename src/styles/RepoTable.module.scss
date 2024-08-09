@@ -1,7 +1,10 @@
 .repoTable {
   width: 100%;
   padding: 0 20px 0 32px;
-  box-sizing: border-box;
+
+  position: relative;
+  border: none;
+
 
 }
 
@@ -23,18 +26,24 @@ width: 912px;
   padding: 0 10px; /* Отступы */
   box-sizing: border-box;
 
-.tablePagination {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: calc(100% - 480px);
-  background-color: white;
-  z-index: 1000;
-  padding: 10px 20px;
-  box-sizing: border-box;
-}
+
+
 .resultsHeading {
   padding: 24px 0;
   color: rgba(0, 0, 0, 0.87);
 }
+
+}
+.tablePagination {
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  margin-right: 480px;
+  width: calc(1440px - 480px);
+  background-color: white;
+  z-index: 1000;
+  padding: 10px 20px;
+  box-sizing: border-box;
+
 }
