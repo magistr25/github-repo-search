@@ -26,7 +26,7 @@ const SearchBar: React.FC = () => {
                 inputProps={{
                     className: styles.inputBase,
                 }}
-                InputProps={{ style: { height: '42px' } }}
+                InputProps={{ style: { height: '42px'} }}
             />
             <Button
                 variant="contained"

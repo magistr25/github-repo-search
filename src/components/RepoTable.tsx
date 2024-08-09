@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { fetchRepos } from '../redux/reposSlice';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination } from '@mui/material';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    TablePagination,
+    Typography
+} from '@mui/material';
 import styles from '../styles/RepoTable.module.scss';
 
 interface Repo {
@@ -38,47 +48,52 @@ const RepoTable: React.FC = () => {
     }, [dispatch, page, rowsPerPage]);
 
     return (
-        <TableContainer component={Paper} className={styles.repoTable}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Название</TableCell>
-                        <TableCell>Язык</TableCell>
-                        <TableCell>Число форков</TableCell>
-                        <TableCell>Число звёзд</TableCell>
-                        <TableCell>Дата обновления</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {Array.isArray(repos) && repos.length > 0 ? (
-                        repos.map((repo) => (
-                            <TableRow key={repo.id} className={styles.tableRow}>
-                                <TableCell>{repo.name}</TableCell>
-                                <TableCell>{repo.language}</TableCell>
-                                <TableCell>{repo.forks_count}</TableCell>
-                                <TableCell>{repo.stargazers_count}</TableCell>
-                                <TableCell>{new Date(repo.updated_at).toLocaleDateString()}</TableCell>
-                            </TableRow>
-                        ))
-                    ) : (
+        <>
+            <TableContainer component={Paper} className={styles.repoTable}>
+                <Typography variant="h3" className={styles.resultsHeading}>
+                    Результаты поиска
+                </Typography>
+                <Table>
+                    <TableHead>
                         <TableRow>
-                            <TableCell colSpan={5}>Нет данных для отображения</TableCell>
+                            <TableCell>Название</TableCell>
+                            <TableCell>Язык</TableCell>
+                            <TableCell>Число форков</TableCell>
+                            <TableCell>Число звёзд</TableCell>
+                            <TableCell>Дата обновления</TableCell>
                         </TableRow>
-                    )}
-                </TableBody>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 50]}
-                    component="div"
-                    count={totalCount}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                    className={styles.tablePagination}
-                />
-            </Table>
+                    </TableHead>
+                    <TableBody>
+                        {Array.isArray(repos) && repos.length > 0 ? (
+                            repos.map((repo) => (
+                                <TableRow key={repo.id} className={styles.tableRow}>
+                                    <TableCell>{repo.name}</TableCell>
+                                    <TableCell>{repo.language}</TableCell>
+                                    <TableCell>{repo.forks_count}</TableCell>
+                                    <TableCell>{repo.stargazers_count}</TableCell>
+                                    <TableCell>{new Date(repo.updated_at).toLocaleDateString()}</TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={5}>Нет данных для отображения</TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 50]}
+                        component="div"
+                        count={totalCount}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handlePageChange}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                        className={styles.tablePagination}
+                    />
+                </Table>
 
-        </TableContainer>
+            </TableContainer>
+        </>
     );
 };
 

@@ -4,18 +4,17 @@
   display: flex;
   align-items: center;
   background-color: rgba(0, 131, 143, 1);
-  padding: 19px 30px;
+  padding: 0 32px;
   width: 1440px;
   min-width: 360px;
-
+  height: 80px;
+  margin: 0;
 
   .searchInput {
     width: 912px;
     height: 42px;
     background-color: #F2F2F2;
     border-radius: 4px;
-
-    vertical-align: middle;
 
   }
 
@@ -37,12 +36,13 @@
     font-weight: 400;
     font-style: italic;
     color: #828282;
-    line-height: 24px;
+
     letter-spacing: 0.17px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 15px;
+
   }
 
   .inputBase {
