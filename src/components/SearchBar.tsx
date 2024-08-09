@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useAppDispatch } from '../redux/store';
-import { fetchRepos, resetRepos } from '../redux/reposSlice';
+import { fetchRepos, setSearchQuery, resetRepos } from '../redux/reposSlice';
 import styles from '../styles/SearchBar.module.scss';
 
 interface SearchBarProps {
@@ -16,7 +16,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         if (query.trim() === '') {
             dispatch(resetRepos());
         } else {
-            dispatch(fetchRepos({ query, sort: 'stars', direction: 'desc', page: 0, rowsPerPage: 10 }));
+            dispatch(setSearchQuery(query)); // Устанавливаем значение query в store
+            // Используем сортировку по имени по умолчанию и направление по возрастанию
+            dispatch(fetchRepos({ query, sort: 'name', direction: 'asc', page: 0, rowsPerPage: 10 }));
         }
         onSearch(); // Вызов функции, переданной через пропсы
     };

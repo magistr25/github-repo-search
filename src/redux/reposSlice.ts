@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Определение интерфейса для данных репозитория
 interface Repo {
     id: number;
     name: string;
@@ -11,18 +10,18 @@ interface Repo {
     updated_at: string;
 }
 
-// Определение интерфейса для состояния хранилища
 interface ReposState {
     repos: Repo[];
     status: string;
     total_count: number;
+    searchQuery: string; // Добавляем searchQuery в состояние
 }
 
-// Начальное состояние
 const initialState: ReposState = {
     repos: [],
     status: 'idle',
     total_count: 0,
+    searchQuery: '', // Инициализируем searchQuery пустой строкой
 };
 
 // Thunk для поиска репозиториев
@@ -31,16 +30,11 @@ export const fetchRepos = createAsyncThunk(
     async ({ query, sort, direction, page, rowsPerPage }:
                { query: string, sort: string, direction: 'asc' | 'desc', page: number, rowsPerPage: number },
            { rejectWithValue }) => {
-        if (!query.trim()) {
-            // Если запрос пустой, возвращаем пустой массив и нулевой счетчик
-            return { items: [], total_count: 0 };
-        }
-
         try {
             const response = await axios.get(`https://api.github.com/search/repositories`, {
                 params: {
                     q: query,
-                    sort: sort,
+                    sort: sort !== 'name' ? sort : undefined, // Убираем sort, если сортировка по name
                     order: direction,
                     per_page: rowsPerPage,
                     page: page + 1,
@@ -51,27 +45,31 @@ export const fetchRepos = createAsyncThunk(
                 },
             });
 
+            // Проверяем, что данные пришли правильно
             return { items: response.data.items, total_count: response.data.total_count };
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                // Если ошибка пришла от axios, мы можем безопасно получить доступ к error.response
                 return rejectWithValue(error.response?.data);
             } else {
-                // Если ошибка неизвестного типа, просто отклоняем с сообщением
                 return rejectWithValue('An unknown error occurred');
             }
         }
     }
 );
 
+
 const reposSlice = createSlice({
     name: 'repos',
     initialState,
     reducers: {
+        setSearchQuery: (state, action) => {
+            state.searchQuery = action.payload;
+        },
         resetRepos: (state) => {
             state.repos = [];
             state.total_count = 0;
             state.status = 'idle';
+            state.searchQuery = ''; // Сбрасываем searchQuery
         },
     },
     extraReducers: (builder) => {
@@ -90,8 +88,6 @@ const reposSlice = createSlice({
     },
 });
 
-export const { resetRepos } = reposSlice.actions;
+export const { setSearchQuery, resetRepos } = reposSlice.actions;
 
 export default reposSlice.reducer;
-
-
