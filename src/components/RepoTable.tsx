@@ -128,7 +128,7 @@ const RepoTable: React.FC = () => {
                                 </TableRow>
                             ))
                         ) : (
-                            <TableRow>
+                            <TableRow className={styles.tableRow}>
                                 <TableCell colSpan={5}>Нет данных для отображения</TableCell>
                             </TableRow>
                         )}

@@ -15,12 +15,14 @@
   position: relative;
 
 }
+
 .tableRow {
-width: 912px;
+  width: 100%;
   cursor: pointer;
 
   &:hover {
     background-color: #f5f5f5;
+    transition: background-color 0.3s ease;
   }
 }
 .tableCell {
