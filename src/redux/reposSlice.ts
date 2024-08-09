@@ -36,12 +36,14 @@ export const fetchRepos = createAsyncThunk(
                 sort: sort,
                 order: direction,
                 per_page: rowsPerPage,
-                page: page + 1,  // GitHub API 1-based page indexing
+                page: page + 1,
             },
             headers: {
-                authorization: `token TOKEN`,
+                Accept: 'application/vnd.github+json',
+                'User-Agent': 'magistr25'
             },
         });
+
         return { items: response.data.items, total_count: response.data.total_count };
     }
 );
