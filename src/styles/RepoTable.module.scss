@@ -1,20 +1,27 @@
 .repoTable {
-  width: calc(100%);
-
+  width: 100%;
+  padding: 0 20px 0 32px;
+  box-sizing: border-box;
 
 }
 
 .tableBody {
-  position: relative; /* Добавляем относительное позиционирование */
+  position: relative;
 
 }
 .tableRow {
-
+width: 912px;
   cursor: pointer;
 
   &:hover {
     background-color: #f5f5f5;
   }
+}
+.tableCell {
+  width: 182.4px; /* Ширина ячеек */
+  height: 56px; /* Высота ячеек */
+  padding: 0px 10px; /* Отступы */
+  box-sizing: border-box;
 }
 .tablePagination {
   position: absolute;
@@ -27,5 +34,7 @@
   box-sizing: border-box;
 }
 .resultsHeading {
-  padding: 24px 32px;
+  padding: 24px 0;
+  color: rgba(0, 0, 0, 0.87);
+
 }

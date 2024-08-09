@@ -10,9 +10,11 @@ import {
     TableRow,
     Paper,
     TablePagination,
-    Typography
+    Typography,
+    TableSortLabel
 } from '@mui/material';
 import styles from '../styles/RepoTable.module.scss';
+import { styled } from '@mui/system';
 
 interface Repo {
     id: number;
@@ -23,29 +25,47 @@ interface Repo {
     updated_at: string;
 }
 
+// Создаем стилизованный компонент для TableSortLabel с измененной позицией стрелки
+const CustomTableSortLabel = styled(TableSortLabel)({
+    display: 'flex',
+    flexDirection: 'row-reverse', // Изменяем порядок элементов: стрелка слева, текст справа
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+});
+
 const RepoTable: React.FC = () => {
     const repos = useAppSelector((state) => state.repos.repos);
-    const totalCount = useAppSelector((state) => state.repos.total_count); // Получаем total_count из состояния
+    const totalCount = useAppSelector((state) => state.repos.total_count);
     const dispatch = useAppDispatch();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [sortField, setSortField] = useState<'name' | 'stargazers_count' | 'forks_count' | 'updated_at'>('stargazers_count');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+    const handleSort = (field: 'name' | 'stargazers_count' | 'forks_count' | 'updated_at') => {
+        const isAsc = sortField === field && sortDirection === 'asc';
+        setSortDirection(isAsc ? 'desc' : 'asc');
+        setSortField(field);
+        setPage(0);
+        dispatch(fetchRepos({ query: 'github-repo-search', sort: field, direction: isAsc ? 'desc' : 'asc', page: 0, rowsPerPage }));
+    };
 
     const handlePageChange = (event: unknown, newPage: number) => {
         setPage(newPage);
-        dispatch(fetchRepos({ query: 'github-repo-search', sort: 'stars', direction: 'desc', page: newPage, rowsPerPage }));
+        dispatch(fetchRepos({ query: 'github-repo-search', sort: sortField, direction: sortDirection, page: newPage, rowsPerPage }));
     };
 
     const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newRowsPerPage = parseInt(event.target.value, 10);
         setRowsPerPage(newRowsPerPage);
         setPage(0);
-        dispatch(fetchRepos({ query: 'github-repo-search', sort: 'stars', direction: 'desc', page: 0, rowsPerPage: newRowsPerPage }));
+        dispatch(fetchRepos({ query: 'github-repo-search', sort: sortField, direction: sortDirection, page: 0, rowsPerPage: newRowsPerPage }));
     };
 
     useEffect(() => {
-        dispatch(fetchRepos({ query: 'github-repo-search', sort: 'stars', direction: 'desc', page, rowsPerPage }));
-    }, [dispatch, page, rowsPerPage]);
+        dispatch(fetchRepos({ query: 'github-repo-search', sort: sortField, direction: sortDirection, page, rowsPerPage }));
+    }, [dispatch, page, rowsPerPage, sortField, sortDirection]);
 
     return (
         <>
@@ -54,24 +74,57 @@ const RepoTable: React.FC = () => {
                     Результаты поиска
                 </Typography>
                 <Table>
-                    <TableHead>
+                    <TableHead className={styles.tableHead}>
                         <TableRow>
-                            <TableCell>Название</TableCell>
-                            <TableCell>Язык</TableCell>
-                            <TableCell>Число форков</TableCell>
-                            <TableCell>Число звёзд</TableCell>
-                            <TableCell>Дата обновления</TableCell>
+                            <TableCell className={styles.tableCell}>
+                                <CustomTableSortLabel
+                                    active={sortField === 'name'}
+                                    direction={sortField === 'name' ? sortDirection : 'asc'}
+                                    onClick={() => handleSort('name')}
+
+                                >
+                                    Название
+                                </CustomTableSortLabel>
+                            </TableCell>
+                            <TableCell className={styles.tableCell}>Язык</TableCell>
+                            <TableCell className={styles.tableCell}>
+                                <TableSortLabel
+                                    active={sortField === 'forks_count'}
+                                    direction={sortField === 'forks_count' ? sortDirection : 'asc'}
+                                    onClick={() => handleSort('forks_count')}
+                                >
+                                    Число форков
+                                </TableSortLabel>
+                            </TableCell>
+                            <TableCell className={styles.tableCell}>
+                                <TableSortLabel
+                                    active={sortField === 'stargazers_count'}
+                                    direction={sortField === 'stargazers_count' ? sortDirection : 'asc'}
+                                    onClick={() => handleSort('stargazers_count')}
+                                >
+                                    Число звёзд
+                                </TableSortLabel>
+                            </TableCell>
+                            <TableCell className={styles.tableCell}>
+                                <TableSortLabel
+                                    active={sortField === 'updated_at'}
+                                    direction={sortField === 'updated_at' ? sortDirection : 'asc'}
+                                    onClick={() => handleSort('updated_at')}
+                                >
+                                    Дата обновления
+                                </TableSortLabel>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody className={styles.tableBody}>
                         {Array.isArray(repos) && repos.length > 0 ? (
                             repos.map((repo) => (
                                 <TableRow key={repo.id} className={styles.tableRow}>
-                                    <TableCell>{repo.name}</TableCell>
-                                    <TableCell>{repo.language}</TableCell>
-                                    <TableCell>{repo.forks_count}</TableCell>
-                                    <TableCell>{repo.stargazers_count}</TableCell>
-                                    <TableCell>{new Date(repo.updated_at).toLocaleDateString()}</TableCell>
+                                    <TableCell className={styles.tableCell}>{repo.name}</TableCell>
+                                    <TableCell className={styles.tableCell}>{repo.language}</TableCell>
+                                    <TableCell className={styles.tableCell}>{repo.forks_count}</TableCell>
+                                    <TableCell className={styles.tableCell}>{repo.stargazers_count}</TableCell>
+                                    <TableCell className={styles.tableCell}>{new Date(repo.updated_at).toLocaleDateString()}</TableCell>
                                 </TableRow>
                             ))
                         ) : (
@@ -91,7 +144,6 @@ const RepoTable: React.FC = () => {
                         className={styles.tablePagination}
                     />
                 </Table>
-
             </TableContainer>
         </>
     );
