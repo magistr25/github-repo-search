@@ -1,0 +1,28 @@
+.repoTable {
+  width: calc(100%);
+
+
+}
+
+.tableBody {
+  position: relative; /* Добавляем относительное позиционирование */
+
+}
+.tableRow {
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+.tablePagination {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 480px);
+  background-color: white;
+  z-index: 1000;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
