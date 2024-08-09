@@ -5,7 +5,10 @@
   position: relative;
   border: none;
 
-
+  .resultsHeading {
+    margin: 24px 0;
+    color: rgba(0, 0, 0, 0.87);
+  }
 }
 
 .tableBody {
@@ -21,19 +24,13 @@ width: 912px;
   }
 }
 .tableCell {
-  width: 182.4px; /* Ширина ячеек */
-  height: 56px; /* Высота ячеек */
-  padding: 0 10px; /* Отступы */
+  width: 182.4px;
+  height: 56px;
+  padding: 0 10px;
   box-sizing: border-box;
 
-
-
-.resultsHeading {
-  padding: 24px 0;
-  color: rgba(0, 0, 0, 0.87);
 }
 
-}
 .tablePagination {
   display: block;
   position: absolute;
@@ -46,4 +43,14 @@ width: 912px;
   padding: 10px 20px;
   box-sizing: border-box;
 
+}
+.repoTable,
+.MuiTableContainer-root,
+.MuiTable-root {
+  border-right: none;
+  border-left: none;
+}
+.tableCell {
+  border-right: none !important;
+  border-left: none !important;
 }
