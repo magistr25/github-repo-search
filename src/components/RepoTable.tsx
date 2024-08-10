@@ -4,7 +4,6 @@ import { fetchRepos, setPage, setRowsPerPage, setSortDirection, setSortField } f
 import {
     Table,
     TableBody,
-    TableCell,
     TableContainer,
     TableHead,
     TableRow,
@@ -18,12 +17,16 @@ import { styled } from '@mui/system';
 
 // Кастомный TableSortLabel для поля "Название"
 const CustomTableSortLabelForName = styled(TableSortLabel)({
+    display: 'flex',
+    flexDirection: 'row-reverse', // Стрелка будет справа
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+});
 
-        display: 'flex',
-        flexDirection: 'row-reverse', // Стрелка будет справа
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-
+// Кастомный компонент TableCell с использованием styled API
+const StyledTableCell = styled('td')({
+    borderBottom: '1px solid rgb(224, 224, 224)',
+    padding: '16px',
 });
 
 const RepoTable: React.FC = () => {
@@ -48,7 +51,6 @@ const RepoTable: React.FC = () => {
 
     const handleNameSort = () => {
         setNameSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
-
     };
 
     const handlePageChange = (event: unknown, newPage: number) => {
@@ -75,7 +77,7 @@ const RepoTable: React.FC = () => {
                 <Table>
                     <TableHead className={styles.tableHead}>
                         <TableRow>
-                            <TableCell className={styles.tableCell}>
+                            <StyledTableCell>
                                 <CustomTableSortLabelForName
                                     direction={nameSortDirection}
                                     onClick={handleNameSort}
@@ -83,9 +85,9 @@ const RepoTable: React.FC = () => {
                                 >
                                     Название
                                 </CustomTableSortLabelForName>
-                            </TableCell>
-                            <TableCell className={styles.tableCell}>Язык</TableCell>
-                            <TableCell className={styles.tableCell}>
+                            </StyledTableCell>
+                            <StyledTableCell>Язык</StyledTableCell>
+                            <StyledTableCell>
                                 <TableSortLabel
                                     active={sortField === 'forks'}
                                     direction={sortField === 'forks' ? sortDirection : 'asc'}
@@ -93,8 +95,8 @@ const RepoTable: React.FC = () => {
                                 >
                                     Число форков
                                 </TableSortLabel>
-                            </TableCell>
-                            <TableCell className={styles.tableCell}>
+                            </StyledTableCell>
+                            <StyledTableCell>
                                 <TableSortLabel
                                     active={sortField === 'stars'}
                                     direction={sortField === 'stars' ? sortDirection : 'asc'}
@@ -102,8 +104,8 @@ const RepoTable: React.FC = () => {
                                 >
                                     Число звёзд
                                 </TableSortLabel>
-                            </TableCell>
-                            <TableCell className={styles.tableCell}>
+                            </StyledTableCell>
+                            <StyledTableCell>
                                 <TableSortLabel
                                     active={sortField === 'updated'}
                                     direction={sortField === 'updated' ? sortDirection : 'desc'}
@@ -111,23 +113,23 @@ const RepoTable: React.FC = () => {
                                 >
                                     Дата обновления
                                 </TableSortLabel>
-                            </TableCell>
+                            </StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody className={styles.tableBody}>
                         {Array.isArray(repos) && repos.length > 0 ? (
                             repos.map((repo) => (
                                 <TableRow key={repo.id} className={styles.tableRow}>
-                                    <TableCell className={styles.tableCell}>{repo.name}</TableCell>
-                                    <TableCell className={styles.tableCell}>{repo.language || 'Не указан'}</TableCell>
-                                    <TableCell className={styles.tableCell}>{repo.forks_count}</TableCell>
-                                    <TableCell className={styles.tableCell}>{repo.stargazers_count}</TableCell>
-                                    <TableCell className={styles.tableCell}>{new Date(repo.updated_at).toLocaleDateString()}</TableCell>
+                                    <StyledTableCell>{repo.name}</StyledTableCell>
+                                    <StyledTableCell>{repo.language || 'Не указан'}</StyledTableCell>
+                                    <StyledTableCell>{repo.forks_count}</StyledTableCell>
+                                    <StyledTableCell>{repo.stargazers_count}</StyledTableCell>
+                                    <StyledTableCell>{new Date(repo.updated_at).toLocaleDateString()}</StyledTableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow className={styles.tableRow}>
-                                <TableCell colSpan={5}>Нет данных для отображения</TableCell>
+                                <StyledTableCell colSpan={5}>Нет данных для отображения</StyledTableCell>
                             </TableRow>
                         )}
                     </TableBody>

@@ -1,5 +1,6 @@
 .wrapper {
   height: calc(100vh - 80px); /* Высота экрана минус высота полосы поиска */
+  width: 100%;
   position: relative;
 }
 .repoTable {
