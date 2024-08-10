@@ -56,7 +56,7 @@ const RepoTable: React.FC = () => {
     }, [dispatch, searchQuery, page, rowsPerPage, sortField, sortDirection]);
 
     return (
-        <>
+        <div className={styles.wrapper}>
             <TableContainer component={Paper} className={styles.repoTable}>
                 <Typography variant="h3" className={styles.resultsHeading}>
                     Результаты поиска
@@ -75,31 +75,31 @@ const RepoTable: React.FC = () => {
                             </TableCell>
                             <TableCell className={styles.tableCell}>Язык</TableCell>
                             <TableCell className={styles.tableCell}>
-                                <CustomTableSortLabel
+                                <TableSortLabel
                                     active={sortField === 'forks_count'}
                                     direction={sortField === 'forks_count' ? sortDirection : 'asc'}
                                     onClick={() => handleSort('forks_count')}
                                 >
                                     Число форков
-                                </CustomTableSortLabel>
+                                </TableSortLabel>
                             </TableCell>
                             <TableCell className={styles.tableCell}>
-                                <CustomTableSortLabel
+                                <TableSortLabel
                                     active={sortField === 'stargazers_count'}
                                     direction={sortField === 'stargazers_count' ? sortDirection : 'asc'}
                                     onClick={() => handleSort('stargazers_count')}
                                 >
                                     Число звёзд
-                                </CustomTableSortLabel>
+                                </TableSortLabel>
                             </TableCell>
                             <TableCell className={styles.tableCell}>
-                                <CustomTableSortLabel
+                                <TableSortLabel
                                     active={sortField === 'updated_at'}
                                     direction={sortField === 'updated_at' ? sortDirection : 'asc'}
                                     onClick={() => handleSort('updated_at')}
                                 >
                                     Дата обновления
-                                </CustomTableSortLabel>
+                                </TableSortLabel>
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -134,7 +134,7 @@ const RepoTable: React.FC = () => {
                     className={styles.tablePagination}
                 />
             </div>
-        </>
+        </div>
     );
 };
 

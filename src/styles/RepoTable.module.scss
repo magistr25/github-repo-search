@@ -1,7 +1,11 @@
+.wrapper {
+  height: calc(100vh - 80px); /* Высота экрана минус высота полосы поиска */
+  position: relative;
+}
 .repoTable {
   width: 100%;
   padding: 0 20px 0 32px;
-  position: relative;
+
   border: none;
   display: flex;
   flex-direction: column;
@@ -10,6 +14,7 @@
   .resultsHeading {
     margin: 24px 0;
     color: rgba(0, 0, 0, 0.87);
+
   }
 }
 
@@ -51,19 +56,17 @@
 .tablePaginationContainer {
   position: absolute;
   display: flex;
-  align-items: flex-end;
+
   background-color: white;
-  bottom: 43px;
-  right: 480px; // Сдвигаем элемент к правому краю экрана
+  bottom: 0px;
+  left: 30px;
   z-index: 1000;
-
+  width: 100%;
 
 }
-
 .tablePagination {
-  margin-left: 520px;
+margin-left: 510px;
 }
-
 
 .MuiTableContainer-root,
 .MuiTable-root {
