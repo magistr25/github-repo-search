@@ -1,13 +1,19 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-interface Repo {
+export interface Repo {
     id: number;
     name: string;
     language: string;
     forks_count: number;
     stargazers_count: number;
     updated_at: string;
+    selectedRepo: Repo | null;
+    description: string | null; // Описание может быть null
+    license: {
+        name: string;
+    } | null; // Лицензия может быть null
+    topics?: string[];
 }
 
 interface ReposState {
@@ -20,6 +26,7 @@ interface ReposState {
     sortField?: 'forks' | 'stars' | 'updated'; // Поле сортировки (необязательное)
     sortDirection?: 'asc' | 'desc'; // Направление сортировки (необязательное)
     error: string | null;
+    selectedRepo: null,
 }
 
 const initialState: ReposState = {
@@ -32,6 +39,7 @@ const initialState: ReposState = {
     sortField: undefined,
     sortDirection: undefined,
     error: null,
+    selectedRepo: null,
 };
 
 // Thunk для поиска репозиториев
@@ -102,6 +110,9 @@ const reposSlice = createSlice({
             state.sortDirection = undefined;
             state.error = null;
         },
+        setSelectedRepo: (state, action) => {
+            state.selectedRepo = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -128,6 +139,7 @@ export const {
     setSortField,
     setSortDirection,
     resetRepos,
+    setSelectedRepo
 } = reposSlice.actions;
 
 export default reposSlice.reducer;

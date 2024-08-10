@@ -9,9 +9,9 @@ const Repo= () => {
                 height: '40px',
                 display: 'flex',
                 alignItems: 'center',
-                backgroundColor: '#f5f5f5', // измените на нужный цвет фона
-                border: '1px solid #ddd', // добавьте границу, если нужно
-                padding: '0 8px', // внутренние отступы, если нужно
+                backgroundColor: '#f5f5f5',
+                border: '1px solid #ddd',
+                padding: '0 8px',
             }}
         >
             <Typography

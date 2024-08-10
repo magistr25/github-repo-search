@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useAppSelector } from './redux/store';
 import SearchBar from './components/SearchBar';
-import styles from './styles/App.module.scss';
 import RepoTable from "./components/RepoTable";
+import styles from './styles/App.module.scss';
 import { Box, Paper, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
+import { Repo } from './redux/reposSlice'; // Импортируем тип Repo
 
 const App: React.FC = () => {
     const [hasSearched, setHasSearched] = useState(false);
+    const selectedRepo = useAppSelector((state): Repo | null => state.repos.selectedRepo);
 
     const handleSearch = () => {
         setHasSearched(true);
@@ -17,10 +20,10 @@ const App: React.FC = () => {
             sx={{
                 width: '1440px',
                 height: '1024px',
-                margin: '0 auto', // Центрирование по горизонтали
+                margin: '0 auto',
                 display: 'flex',
                 flexDirection: 'column',
-                backgroundColor: '#f5f5f5', // можете изменить на нужный цвет фона
+                backgroundColor: '#f5f5f5',
             }}
         >
             <SearchBar onSearch={handleSearch} />
@@ -30,7 +33,7 @@ const App: React.FC = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        flexGrow: 1, // занимает доступное пространство
+                        flexGrow: 1,
                     }}
                 >
                     <Typography variant="h4" className={styles.welcome}>
@@ -39,7 +42,7 @@ const App: React.FC = () => {
                 </Box>
             ) : (
                 <Box sx={{ display: 'flex', flexGrow: 1 }}>
-                    <RepoTable/>
+                    <RepoTable />
 
                     <Box sx={{ flexShrink: 0, width: '530px', marginLeft: 'auto', backgroundColor: '#f5f5f5' }}>
                         <Paper
@@ -57,17 +60,29 @@ const App: React.FC = () => {
                                 alignItems="center"
                                 sx={{ height: '100%' }}
                             >
-                                <Typography
-                                    variant="h6"
-                                    sx={{
-                                        textAlign: 'center',
-                                        color: 'rgba(0, 0, 0, 0.6)',
-                                        paddingLeft: '30px',
-                                        fontSize: '14px',
-                                    }}
-                                >
-                                    Выберите репозитарий
-                                </Typography>
+                                {selectedRepo ? (
+                                    <Box sx={{ padding: '20px' }}>
+                                        <Typography sx={{ margin: '0 auto' }} variant="h6"> {selectedRepo.name}</Typography>
+                                        <Typography variant="body1">
+                                            {selectedRepo.description || 'Описание отсутствует'}
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary">
+                                            {selectedRepo.license?.name || 'Лицензия не указана'}
+                                        </Typography>
+                                    </Box>
+                                ) : (
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            textAlign: 'center',
+                                            color: 'rgba(0, 0, 0, 0.6)',
+                                            paddingLeft: '30px',
+                                            fontSize: '14px',
+                                        }}
+                                    >
+                                        Выберите репозиторий
+                                    </Typography>
+                                )}
                             </Grid>
                         </Paper>
                     </Box>
@@ -78,4 +93,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

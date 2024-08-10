@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/store';
-import { fetchRepos, setPage, setRowsPerPage, setSortDirection, setSortField } from '../redux/reposSlice';
+import { fetchRepos, setPage, setRowsPerPage, setSortDirection, setSortField, setSelectedRepo } from '../redux/reposSlice';
+import { Repo } from '../redux/reposSlice';
 import {
     Table,
     TableBody,
@@ -39,7 +40,6 @@ const RepoTable: React.FC = () => {
     const sortField = useAppSelector((state) => state.repos.sortField);
     const sortDirection = useAppSelector((state) => state.repos.sortDirection);
 
-    // Локальное состояние для сортировки по названию
     const [nameSortDirection, setNameSortDirection] = useState<'asc' | 'desc'>('asc');
 
     const handleSort = (field: 'forks' | 'stars' | 'updated') => {
@@ -67,6 +67,10 @@ const RepoTable: React.FC = () => {
     useEffect(() => {
         dispatch(fetchRepos({ query: searchQuery, sort: sortField, direction: sortDirection, page, rowsPerPage }));
     }, [dispatch, searchQuery, page, rowsPerPage, sortField, sortDirection]);
+
+    const handleRepoClick = (repo: Repo) => {
+        dispatch(setSelectedRepo(repo));
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -119,7 +123,12 @@ const RepoTable: React.FC = () => {
                     <TableBody className={styles.tableBody}>
                         {Array.isArray(repos) && repos.length > 0 ? (
                             repos.map((repo) => (
-                                <TableRow key={repo.id} className={styles.tableRow}>
+                                <TableRow
+                                    key={repo.id}
+                                    className={styles.tableRow}
+                                    onClick={() => handleRepoClick(repo)}  // Обработка клика на строке
+                                    sx={{ cursor: 'pointer' }}  // Добавляем курсор для выбора папки
+                                >
                                     <StyledTableCell>{repo.name}</StyledTableCell>
                                     <StyledTableCell>{repo.language || 'Не указан'}</StyledTableCell>
                                     <StyledTableCell>{repo.forks_count}</StyledTableCell>
@@ -145,7 +154,6 @@ const RepoTable: React.FC = () => {
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
                     className={styles.tablePagination}
-
                 />
             </div>
         </div>
