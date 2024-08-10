@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { fetchRepos, setPage, setRowsPerPage, setSortDirection, setSortField } from '../redux/reposSlice';
 import {
@@ -16,11 +16,14 @@ import {
 import styles from '../styles/RepoTable.module.scss';
 import { styled } from '@mui/system';
 
-const CustomTableSortLabel = styled(TableSortLabel)({
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+// Кастомный TableSortLabel для поля "Название"
+const CustomTableSortLabelForName = styled(TableSortLabel)({
+
+        display: 'flex',
+        flexDirection: 'row-reverse', // Стрелка будет справа
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+
 });
 
 const RepoTable: React.FC = () => {
@@ -33,11 +36,19 @@ const RepoTable: React.FC = () => {
     const sortField = useAppSelector((state) => state.repos.sortField);
     const sortDirection = useAppSelector((state) => state.repos.sortDirection);
 
-    const handleSort = (field: 'name' | 'stargazers_count' | 'forks_count' | 'updated_at') => {
+    // Локальное состояние для сортировки по названию
+    const [nameSortDirection, setNameSortDirection] = useState<'asc' | 'desc'>('asc');
+
+    const handleSort = (field: 'forks' | 'stars' | 'updated') => {
         const isAsc = sortField === field && sortDirection === 'asc';
         dispatch(setSortDirection(isAsc ? 'desc' : 'asc'));
         dispatch(setSortField(field));
         dispatch(fetchRepos({ query: searchQuery, sort: field, direction: isAsc ? 'desc' : 'asc', page: 0, rowsPerPage }));
+    };
+
+    const handleNameSort = () => {
+        setNameSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+
     };
 
     const handlePageChange = (event: unknown, newPage: number) => {
@@ -65,38 +76,38 @@ const RepoTable: React.FC = () => {
                     <TableHead className={styles.tableHead}>
                         <TableRow>
                             <TableCell className={styles.tableCell}>
-                                <CustomTableSortLabel
-                                    active={sortField === 'name'}
-                                    direction={sortField === 'name' ? sortDirection : 'asc'}
-                                    onClick={() => handleSort('name')}
+                                <CustomTableSortLabelForName
+                                    direction={nameSortDirection}
+                                    onClick={handleNameSort}
+                                    active
                                 >
                                     Название
-                                </CustomTableSortLabel>
+                                </CustomTableSortLabelForName>
                             </TableCell>
                             <TableCell className={styles.tableCell}>Язык</TableCell>
                             <TableCell className={styles.tableCell}>
                                 <TableSortLabel
-                                    active={sortField === 'forks_count'}
-                                    direction={sortField === 'forks_count' ? sortDirection : 'asc'}
-                                    onClick={() => handleSort('forks_count')}
+                                    active={sortField === 'forks'}
+                                    direction={sortField === 'forks' ? sortDirection : 'asc'}
+                                    onClick={() => handleSort('forks')}
                                 >
                                     Число форков
                                 </TableSortLabel>
                             </TableCell>
                             <TableCell className={styles.tableCell}>
                                 <TableSortLabel
-                                    active={sortField === 'stargazers_count'}
-                                    direction={sortField === 'stargazers_count' ? sortDirection : 'asc'}
-                                    onClick={() => handleSort('stargazers_count')}
+                                    active={sortField === 'stars'}
+                                    direction={sortField === 'stars' ? sortDirection : 'asc'}
+                                    onClick={() => handleSort('stars')}
                                 >
                                     Число звёзд
                                 </TableSortLabel>
                             </TableCell>
                             <TableCell className={styles.tableCell}>
                                 <TableSortLabel
-                                    active={sortField === 'updated_at'}
-                                    direction={sortField === 'updated_at' ? sortDirection : 'asc'}
-                                    onClick={() => handleSort('updated_at')}
+                                    active={sortField === 'updated'}
+                                    direction={sortField === 'updated' ? sortDirection : 'desc'}
+                                    onClick={() => handleSort('updated')}
                                 >
                                     Дата обновления
                                 </TableSortLabel>

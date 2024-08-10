@@ -17,8 +17,8 @@ interface ReposState {
     searchQuery: string;
     page: number;
     rowsPerPage: number;
-    sortField: 'name' | 'stargazers_count' | 'forks_count' | 'updated_at';
-    sortDirection: 'asc' | 'desc';
+    sortField?: 'forks' | 'stars' | 'updated'; // Поле сортировки (необязательное)
+    sortDirection?: 'asc' | 'desc'; // Направление сортировки (необязательное)
     error: string | null;
 }
 
@@ -29,8 +29,8 @@ const initialState: ReposState = {
     searchQuery: '',
     page: 0,
     rowsPerPage: 10,
-    sortField: 'name',
-    sortDirection: 'asc',
+    sortField: undefined,
+    sortDirection: undefined,
     error: null,
 };
 
@@ -38,17 +38,20 @@ const initialState: ReposState = {
 export const fetchRepos = createAsyncThunk(
     'repos/fetchRepos',
     async ({ query, sort, direction, page, rowsPerPage }:
-               { query: string, sort: string, direction: 'asc' | 'desc', page: number, rowsPerPage: number },
+               { query: string, sort?: 'forks' | 'stars' | 'updated', direction?: 'asc' | 'desc', page: number, rowsPerPage: number },
            { rejectWithValue }) => {
         try {
+            const params: Record<string, any> = {
+                q: query,
+                per_page: rowsPerPage,
+                page: page + 1,
+            };
+
+            if (sort) params.sort = sort;
+            if (direction) params.order = direction;
+
             const response = await axios.get(`https://api.github.com/search/repositories`, {
-                params: {
-                    q: query,
-                    sort: sort !== 'name' ? sort : undefined, // Убираем sort, если сортировка по name
-                    order: direction,
-                    per_page: rowsPerPage,
-                    page: page + 1,
-                },
+                params,
                 headers: {
                     Accept: 'application/vnd.github+json',
                     'User-Agent': 'magistr25'
@@ -81,7 +84,7 @@ const reposSlice = createSlice({
             state.rowsPerPage = action.payload;
             state.page = 0;
         },
-        setSortField: (state, action: PayloadAction<'name' | 'stargazers_count' | 'forks_count' | 'updated_at'>) => {
+        setSortField: (state, action: PayloadAction<'forks' | 'stars' | 'updated'>) => {
             state.sortField = action.payload;
             state.page = 0;
         },
@@ -95,8 +98,8 @@ const reposSlice = createSlice({
             state.searchQuery = '';
             state.page = 0;
             state.rowsPerPage = 10;
-            state.sortField = 'name';
-            state.sortDirection = 'asc';
+            state.sortField = undefined;
+            state.sortDirection = undefined;
             state.error = null;
         },
     },
@@ -128,4 +131,3 @@ export const {
 } = reposSlice.actions;
 
 export default reposSlice.reducer;
-

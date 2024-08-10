@@ -17,8 +17,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             dispatch(resetRepos());
         } else {
             dispatch(setSearchQuery(query)); // Устанавливаем значение query в store
-            // Используем сортировку по имени по умолчанию и направление по возрастанию
-            dispatch(fetchRepos({ query, sort: 'name', direction: 'asc', page: 0, rowsPerPage: 10 }));
+            // Отправляем первый запрос без сортировки (используется best match по умолчанию)
+            dispatch(fetchRepos({ query, sort: undefined, direction: undefined, page: 0, rowsPerPage: 10 }));
         }
         onSearch(); // Вызов функции, переданной через пропсы
     };
