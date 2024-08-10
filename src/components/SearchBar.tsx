@@ -17,10 +17,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             dispatch(resetRepos());
         } else {
             dispatch(setSearchQuery(query)); // Устанавливаем значение query в store
-            // Отправляем первый запрос без сортировки (используется best match по умолчанию)
+            // первый запрос выполняется без сортировки (используется best match по умолчанию)
             dispatch(fetchRepos({ query, sort: undefined, direction: undefined, page: 0, rowsPerPage: 10 }));
         }
-        onSearch(); // Вызов функции, переданной через пропсы
+        onSearch();
     };
 
     return (

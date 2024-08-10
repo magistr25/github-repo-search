@@ -43,6 +43,7 @@ const initialState: ReposState = {
 };
 
 // Thunk для поиска репозиториев
+// Обновленный Thunk для поиска репозиториев
 export const fetchRepos = createAsyncThunk(
     'repos/fetchRepos',
     async ({ query, sort, direction, page, rowsPerPage }:
@@ -69,6 +70,11 @@ export const fetchRepos = createAsyncThunk(
             return { items: response.data.items, total_count: response.data.total_count };
         } catch (error) {
             if (axios.isAxiosError(error)) {
+                if (error.response?.status === 403) {
+                    return rejectWithValue('Превышен лимит скорости API. Необходимо повторить запрос позже.');
+                } else if (error.response?.status === 422) {
+                    return rejectWithValue('Нет данных для отображения');
+                }
                 return rejectWithValue(error.response?.data.message || 'Ошибка при запросе к GitHub API');
             } else {
                 return rejectWithValue('Произошла неизвестная ошибка');
@@ -76,6 +82,9 @@ export const fetchRepos = createAsyncThunk(
         }
     }
 );
+
+
+
 
 const reposSlice = createSlice({
     name: 'repos',
@@ -127,10 +136,13 @@ const reposSlice = createSlice({
             })
             .addCase(fetchRepos.rejected, (state, action: PayloadAction<any>) => {
                 state.status = 'failed';
-                state.error = action.payload as string;
+                state.repos = [];  // Обнуляем данные
+                state.total_count = 0; // Сбрасываем счетчик
+                state.error = action.payload as string; // Устанавливаем сообщение об ошибке
             });
     },
 });
+
 
 export const {
     setSearchQuery,

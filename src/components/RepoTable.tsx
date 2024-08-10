@@ -39,6 +39,7 @@ const RepoTable: React.FC = () => {
     const rowsPerPage = useAppSelector((state) => state.repos.rowsPerPage);
     const sortField = useAppSelector((state) => state.repos.sortField);
     const sortDirection = useAppSelector((state) => state.repos.sortDirection);
+    const error = useAppSelector((state) => state.repos.error); // Добавляем получение ошибки
 
     const [nameSortDirection, setNameSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -74,7 +75,7 @@ const RepoTable: React.FC = () => {
 
     return (
         <div className={styles.wrapper}>
-            <TableContainer component={Paper} className={styles.repoTable}>
+            <TableContainer component={Paper} className={styles.repoTable} sx={{  width: '920px'}}>
                 <Typography variant="h3" className={styles.resultsHeading}>
                     Результаты поиска
                 </Typography>
@@ -121,13 +122,19 @@ const RepoTable: React.FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody className={styles.tableBody}>
-                        {Array.isArray(repos) && repos.length > 0 ? (
+                        {error ? (
+                            <TableRow className={styles.tableRow}>
+                                <StyledTableCell colSpan={5} align="center">
+                                    {error}
+                                </StyledTableCell>
+                            </TableRow>
+                        ) : Array.isArray(repos) && repos.length > 0 ? (
                             repos.map((repo) => (
                                 <TableRow
                                     key={repo.id}
                                     className={styles.tableRow}
-                                    onClick={() => handleRepoClick(repo)}  // Обработка клика на строке
-                                    sx={{ cursor: 'pointer' }}  // Добавляем курсор для выбора папки
+                                    onClick={() => handleRepoClick(repo)}
+                                    sx={{ cursor: 'pointer' }}
                                 >
                                     <StyledTableCell>{repo.name}</StyledTableCell>
                                     <StyledTableCell>{repo.language || 'Не указан'}</StyledTableCell>
@@ -138,7 +145,9 @@ const RepoTable: React.FC = () => {
                             ))
                         ) : (
                             <TableRow className={styles.tableRow}>
-                                <StyledTableCell colSpan={5}>Нет данных для отображения</StyledTableCell>
+                                <StyledTableCell colSpan={5} align="center">
+                                    Нет данных для отображения
+                                </StyledTableCell>
                             </TableRow>
                         )}
                     </TableBody>
@@ -161,3 +170,4 @@ const RepoTable: React.FC = () => {
 };
 
 export default RepoTable;
+
