@@ -145,6 +145,7 @@ const RepoTable: React.FC = () => {
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
                     className={styles.tablePagination}
+
                 />
             </div>
         </div>
