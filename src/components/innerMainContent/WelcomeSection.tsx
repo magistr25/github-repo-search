@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 /**
  * Компонент WelcomeSection отображает приветственный раздел с текстом "Добро пожаловать".
  *
- * @returns {JSX.Element} - Возвращает JSX элемент раздела с приветствием.
+ * Возвращает JSX элемент раздела с приветствием.
  */
 const WelcomeSection: React.FC = () => {
     return (

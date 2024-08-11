@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
-import { useAppDispatch } from '../redux/store';
-import { fetchRepos, setSearchQuery, resetRepos } from '../redux/reposSlice';
-import styles from '../styles/SearchBar.module.scss';
+import { useAppDispatch } from '../../redux/store';
+import { fetchRepos, setSearchQuery, resetRepos } from '../../redux/reposSlice';
+import styles from '../../styles/SearchBar.module.scss';
 
 /**
  * Интерфейс для пропсов компонента SearchBar.
  *
- * @property {() => void} onSearch - Функция, вызываемая для выполнения поиска.
- * @property {string} [width] - Опциональная ширина компонента, по умолчанию 1480px.
+ * onSearch - Функция, вызываемая для выполнения поиска.
+ *  [width] - Опциональная ширина компонента, по умолчанию 1480px.
  */
 interface SearchBarProps {
     onSearch: () => void;
@@ -18,8 +18,8 @@ interface SearchBarProps {
 /**
  * Компонент SearchBar отображает строку поиска с текстовым полем и кнопкой для выполнения поиска.
  *
- * @param {SearchBarProps} props - Пропсы, содержащие функцию onSearch и опциональную ширину компонента.
- * @returns {JSX.Element} - Возвращает JSX элемент строки поиска.
+ * Пропсы, содержащие функцию onSearch и опциональную ширину компонента.
+ * Возвращает JSX элемент строки поиска.
  */
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, width }) => {
     // Локальное состояние для хранения текущего поискового запроса

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import {
     fetchRepos,
     setPage,
@@ -7,7 +7,7 @@ import {
     setSortDirection,
     setSortField,
     setSelectedRepo, Repo,
-} from '../redux/reposSlice';
+} from '../../redux/reposSlice';
 import {
     Table,
     TableBody,
@@ -88,8 +88,8 @@ const RepoTable: React.FC = () => {
     /**
      * Функция для обработки изменения страницы в пагинации.
      *
-     * @param {unknown} event - Событие, вызвавшее изменение страницы.
-     * @param {number} newPage - Новая страница, выбранная пользователем.
+     * event - Событие, вызвавшее изменение страницы.
+     * newPage - Новая страница, выбранная пользователем.
      */
     const handlePageChange = (event: unknown, newPage: number) => {
         dispatch(setPage(newPage));
@@ -107,7 +107,7 @@ const RepoTable: React.FC = () => {
     /**
      * Функция для обработки изменения количества строк на странице в пагинации.
      *
-     * @param {React.ChangeEvent<HTMLInputElement>} event - Событие, вызвавшее изменение количества строк.
+     * event - Событие, вызвавшее изменение количества строк.
      */
     const handleRowsPerPageChange = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -141,7 +141,7 @@ const RepoTable: React.FC = () => {
     /**
      * Функция для обработки выбора репозитория из списка.
      *
-     * @param {Repo} repo - Репозиторий, выбранный пользователем.
+     * repo - Репозиторий, выбранный пользователем.
      */
     const handleRepoClick = (repo: Repo) => {
         dispatch(setSelectedRepo(repo));

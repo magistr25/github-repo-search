@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppSelector } from './redux/store';
 import Header from './components/Header';
-import WelcomeSection from './components/WelcomeSection';
+import WelcomeSection from './components/innerMainContent/WelcomeSection';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import { Box, Container } from "@mui/material";

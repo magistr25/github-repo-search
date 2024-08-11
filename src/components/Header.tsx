@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from "@mui/material";
-import SearchBar from './SearchBar';
+import SearchBar from './innerHeader/SearchBar';
 
 /**
  * Интерфейс для пропсов компонента Header.
@@ -14,8 +14,8 @@ interface HeaderProps {
 /**
  * Компонент Header отображает верхнюю часть страницы, включая панель поиска.
  *
- * @param {HeaderProps} props - Пропсы, содержащие функцию onSearch для обработки события поиска.
- * @returns {JSX.Element} - Возвращает JSX элемент Header.
+ * Пропсы, содержащие функцию onSearch для обработки события поиска.
+ * Возвращает JSX элемент Header.
  */
 const Header: React.FC<HeaderProps> = ({ onSearch }) => {
     return (
