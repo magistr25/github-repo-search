@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import {TextField, Button, Box} from '@mui/material';
 import { useAppDispatch } from '../redux/store';
 import { fetchRepos, setSearchQuery, resetRepos } from '../redux/reposSlice';
 import styles from '../styles/SearchBar.module.scss';
 
+
 interface SearchBarProps {
     onSearch: () => void;
+    width?: string; // Добавляем width
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, width }) => {
     const [query, setQuery] = useState('');
     const dispatch = useAppDispatch();
 
@@ -24,7 +26,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     };
 
     return (
-        <div className={styles.searchBar}>
+        <Box className={styles.searchBar} sx={{ width: width || '1480px' }}>
             <TextField
                 label="Введите поисковый запрос"
                 variant="outlined"
@@ -48,7 +50,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             >
                 ИСКАТЬ
             </Button>
-        </div>
+        </Box>
     );
 };
 
