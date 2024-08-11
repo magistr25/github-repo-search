@@ -1,6 +1,10 @@
 import React from 'react';
 import { Box } from "@mui/material";
-
+/**
+ * Компонент Footer отображает нижний колонтитул страницы.
+ *
+ * @returns {JSX.Element} - Возвращает JSX элемент футера.
+ */
 const Footer: React.FC = () => {
     return (
         <Box
