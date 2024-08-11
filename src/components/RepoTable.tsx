@@ -23,6 +23,10 @@ import {
     TableCell,
 } from '@mui/material';
 
+/**
+ * Стилизация компонента TableSortLabel для сортировки по имени.
+ * Определяет направление сортировки и центрирует элементы.
+ */
 const CustomTableSortLabelForName = styled(TableSortLabel)({
     display: 'flex',
     flexDirection: 'row-reverse',
@@ -30,8 +34,15 @@ const CustomTableSortLabelForName = styled(TableSortLabel)({
     alignItems: 'center',
 });
 
+/**
+ * Компонент RepoTable отображает таблицу с репозиториями, которые берутся из хранилища Redux.
+ * Включает сортировку, пагинацию и выбор репозитория.
+ */
 const RepoTable: React.FC = () => {
+    // Доступ к функции dispatch из хранилища Redux
     const dispatch = useAppDispatch();
+
+    // Получение данных из состояния Redux
     const repos = useAppSelector((state) => state.repos.repos);
     const totalCount = useAppSelector((state) => state.repos.total_count);
     const searchQuery = useAppSelector((state) => state.repos.searchQuery);
@@ -41,10 +52,16 @@ const RepoTable: React.FC = () => {
     const sortDirection = useAppSelector((state) => state.repos.sortDirection);
     const error = useAppSelector((state) => state.repos.error);
 
+    // Локальное состояние для направления сортировки по имени репозитория
     const [nameSortDirection, setNameSortDirection] = useState<'asc' | 'desc'>(
         'asc'
     );
 
+    /**
+     * Функция для обработки сортировки по определенному полю.
+     *
+     * @param {('forks' | 'stars' | 'updated')} field - Поле, по которому выполняется сортировка.
+     */
     const handleSort = (field: 'forks' | 'stars' | 'updated') => {
         const isAsc = sortField === field && sortDirection === 'asc';
         dispatch(setSortDirection(isAsc ? 'desc' : 'asc'));
@@ -60,10 +77,20 @@ const RepoTable: React.FC = () => {
         );
     };
 
+    /**
+     * Функция для обработки сортировки по имени репозитария.
+     * Меняет направление сортировки по имени в локальном состоянии.
+     */
     const handleNameSort = () => {
         setNameSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     };
 
+    /**
+     * Функция для обработки изменения страницы в пагинации.
+     *
+     * @param {unknown} event - Событие, вызвавшее изменение страницы.
+     * @param {number} newPage - Новая страница, выбранная пользователем.
+     */
     const handlePageChange = (event: unknown, newPage: number) => {
         dispatch(setPage(newPage));
         dispatch(
@@ -77,6 +104,11 @@ const RepoTable: React.FC = () => {
         );
     };
 
+    /**
+     * Функция для обработки изменения количества строк на странице в пагинации.
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} event - Событие, вызвавшее изменение количества строк.
+     */
     const handleRowsPerPageChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -93,6 +125,7 @@ const RepoTable: React.FC = () => {
         );
     };
 
+    // Эффект, вызывающий получение данных при изменении параметров поиска, сортировки или пагинации
     useEffect(() => {
         dispatch(
             fetchRepos({
@@ -105,6 +138,11 @@ const RepoTable: React.FC = () => {
         );
     }, [dispatch, searchQuery, page, rowsPerPage, sortField, sortDirection]);
 
+    /**
+     * Функция для обработки выбора репозитория из списка.
+     *
+     * @param {Repo} repo - Репозиторий, выбранный пользователем.
+     */
     const handleRepoClick = (repo: Repo) => {
         dispatch(setSelectedRepo(repo));
     };
@@ -135,7 +173,7 @@ const RepoTable: React.FC = () => {
             >
                 <Typography
                     variant="h3"
-                    sx={{ margin: '24px 0',paddingLeft: '26px', color: 'rgba(0, 0, 0, 0.87)' }}
+                    sx={{ margin: '24px 0', paddingLeft: '26px', color: 'rgba(0, 0, 0, 0.87)' }}
                 >
                     Результаты поиска
                 </Typography>
@@ -241,3 +279,4 @@ const RepoTable: React.FC = () => {
 };
 
 export default RepoTable;
+

@@ -107,7 +107,6 @@ const MainContent: React.FC<MainContentProps> = ({ selectedRepo }) => {
                         <Typography
                             sx={{
                                 color: 'rgba(0, 0, 0, 0.87)',
-                                textAlign: 'center',
                                 fontSize: '14px',
                                 letterSpacing: '0.17px',
                                 lineHeight: '20.02px',
@@ -115,7 +114,7 @@ const MainContent: React.FC<MainContentProps> = ({ selectedRepo }) => {
 
                             }}
                         >
-                            Выберите репозиторий
+                            Выберите репозитарий
                         </Typography>
                     )}
                 </Grid>
