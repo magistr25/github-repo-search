@@ -8,7 +8,7 @@ import styles from '../../styles/SearchBar.module.scss';
  * Интерфейс для пропсов компонента SearchBar.
  *
  * onSearch - Функция, вызываемая для выполнения поиска.
- *  [width] - Опциональная ширина компонента, по умолчанию 1480px.
+ * width - Опциональная ширина компонента, по умолчанию 1480px.
  */
 interface SearchBarProps {
     onSearch: () => void;
@@ -47,6 +47,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, width }) => {
         onSearch();
     };
 
+    /**
+     * Функция handleKeyPress обрабатывает нажатие клавиш в текстовом поле.
+     * Если нажата клавиша Enter, выполняет поиск.
+     *
+     * @param {React.KeyboardEvent<HTMLDivElement>} event - Событие нажатия клавиши.
+     */
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     return (
         <Box className={styles.searchBar} sx={{ width: width || '1480px' }}>
             <TextField
@@ -55,6 +67,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, width }) => {
                 className={styles.searchInput}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown} // Добавляем обработчик нажатия клавиши
                 InputLabelProps={{
                     className: styles.inputLabel,
                 }}
