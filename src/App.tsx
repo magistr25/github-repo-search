@@ -7,11 +7,24 @@ import Footer from './components/Footer';
 import { Box, Container } from "@mui/material";
 import { Repo } from './redux/reposSlice';
 
+/**
+ * Главный компонент приложения.
+ */
 const App: React.FC = () => {
-    const [hasSearched, setHasSearched] = useState(false);
-    const selectedRepo = useAppSelector((state): Repo | null => state.repos.selectedRepo);
+    /**
+     * Состояние, которое определяет, была ли выполнена поисковая операция.
+     */
+    const [hasSearched, setHasSearched] = useState<boolean>(false);
 
-    const handleSearch = () => {
+    /**
+     * Селектор для получения выбранного репозитория из состояния.
+     */
+    const selectedRepo: Repo | null = useAppSelector((state): Repo | null => state.repos.selectedRepo);
+
+    /**
+     * Обработчик события поиска. Устанавливает флаг, что поиск был выполнен.
+     */
+    const handleSearch = (): void => {
         setHasSearched(true);
     };
 
@@ -42,14 +55,17 @@ const App: React.FC = () => {
                     scrollbarWidth: 'none',
                 }}
             >
+                {/* Компонент шапки приложения, включает в себя поле для поиска */}
                 <Header onSearch={handleSearch} />
 
+                {/* Условный рендеринг: отображается либо приветственный раздел, либо основное содержание в зависимости от состояния hasSearched */}
                 {!hasSearched ? (
                     <WelcomeSection />
                 ) : (
                     <MainContent selectedRepo={selectedRepo} />
                 )}
 
+                {/* Компонент подвала приложения */}
                 <Footer />
             </Container>
         </Box>
