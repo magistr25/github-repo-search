@@ -265,7 +265,7 @@ const RepoTable: React.FC = () => {
                     )}
                 </Box>
             </TableContainer>
-            <Box sx={{ position: 'absolute', backgroundColor: 'white', bottom: '4px', zIndex: 1000, width: '100%' }}>
+            <Box sx={{ position: 'absolute', backgroundColor: 'white', bottom: '0', zIndex: 1000, width: '100%' }}>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}
                     component="div"
