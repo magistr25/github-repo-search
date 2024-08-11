@@ -173,7 +173,7 @@ const RepoTable: React.FC = () => {
             >
                 <Typography
                     variant="h3"
-                    sx={{ margin: '24px 0', paddingLeft: '26px', color: 'rgba(0, 0, 0, 0.87)' }}
+                    sx={{ margin: '24px 0', paddingLeft: '26px', paddingBottom:'10px', color: 'rgba(0, 0, 0, 0.87)' }}
                 >
                     Результаты поиска
                 </Typography>
