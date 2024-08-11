@@ -4,18 +4,31 @@ import RepoTable from "./RepoTable";
 import StarIcon from '@mui/icons-material/Star';
 import { Repo } from '../redux/reposSlice';
 
+/**
+ * Интерфейс для пропсов компонента MainContent.
+ *
+ * @property {Repo | null} selectedRepo - Выбранный репозиторий, который будет отображен. Может быть null, если репозиторий не выбран.
+ */
 interface MainContentProps {
     selectedRepo: Repo | null;
 }
 
+/**
+ * Компонент MainContent отображает основное содержание страницы.
+ * Включает таблицу репозиториев и информацию о выбранном репозитории.
+ *
+ * @param {MainContentProps} props - Пропсы, содержащие информацию о выбранном репозитории.
+ * @returns {JSX.Element} Возвращает JSX элемент, представляющий основное содержание страницы.
+ */
 const MainContent: React.FC<MainContentProps> = ({ selectedRepo }) => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'row', height: '912px', padding: 0 }}>
             <Box sx={{ flexGrow: 1, padding: 0 }}>
+                {/* Компонент таблицы репозиториев */}
                 <RepoTable />
             </Box>
 
-            <Box sx={{ width: '480px', backgroundColor: '#f5f5f5', border:'none'}}>
+            <Box sx={{ width: '480px', backgroundColor: '#f5f5f5', border: 'none' }}>
                 <Grid
                     container
                     direction="column"
@@ -25,10 +38,21 @@ const MainContent: React.FC<MainContentProps> = ({ selectedRepo }) => {
                 >
                     {selectedRepo ? (
                         <div style={{ marginLeft: '20px' }}>
-                            <Typography variant="h5" sx={{ mb: 2, color: 'rgba(0, 0, 0, 0.87)', fontSize: '32px', fontWeight: '400', lineHeight: '40px', marginTop: '24px' }}>
+                            {/* Название выбранного репозитория */}
+                            <Typography
+                                variant="h5"
+                                sx={{ mb: 2, color: 'rgba(0, 0, 0, 0.87)', fontSize: '32px', fontWeight: '400', lineHeight: '40px', marginTop: '24px' }}
+                            >
                                 {selectedRepo.name}
                             </Typography>
-                            <Grid container alignItems="center" justifyContent="space-between" sx={{ mb: 2, width: '410px' }}>
+
+                            {/* Отображение языка репозитория и количества звезд */}
+                            <Grid
+                                container
+                                alignItems="center"
+                                justifyContent="space-between"
+                                sx={{ mb: 2, width: '410px' }}
+                            >
                                 <Chip
                                     label={selectedRepo.language || 'Unknown'}
                                     sx={{
@@ -43,6 +67,8 @@ const MainContent: React.FC<MainContentProps> = ({ selectedRepo }) => {
                                     </Typography>
                                 </Box>
                             </Grid>
+
+                            {/* Отображение списка топиков (тем) репозитория */}
                             {selectedRepo.topics && (
                                 <Grid container spacing={1} sx={{ mb: 2 }}>
                                     {selectedRepo.topics.map((topic: string) => (
@@ -60,10 +86,20 @@ const MainContent: React.FC<MainContentProps> = ({ selectedRepo }) => {
                                     ))}
                                 </Grid>
                             )}
-                            <Typography variant="body2" sx={{ fontWeight: '400', fontSize: '14px', color: 'rgba(0, 0, 0, 0.87)', lineHeight: '20.02px', letterSpacing: '0.17px', mt: '20px', mb: '20px' }}>
+
+                            {/* Отображение лицензии репозитория */}
+                            <Typography
+                                variant="body2"
+                                sx={{ fontWeight: '400', fontSize: '14px', color: 'rgba(0, 0, 0, 0.87)', lineHeight: '20.02px', letterSpacing: '0.17px', mt: '20px', mb: '20px' }}
+                            >
                                 {selectedRepo.license?.name || 'Лицензия не указана'}
                             </Typography>
-                            <Typography variant="body2" sx={{ mb: 1, color: 'rgba(0, 0, 0, 0.87)', lineHeight: '20.02px', letterSpacing: '0.17px' }}>
+
+                            {/* Отображение описания репозитория */}
+                            <Typography
+                                variant="body2"
+                                sx={{ mb: 1, color: 'rgba(0, 0, 0, 0.87)', lineHeight: '20.02px', letterSpacing: '0.17px' }}
+                            >
                                 {selectedRepo.description || 'Описание отсутствует'}
                             </Typography>
                         </div>

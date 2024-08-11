@@ -3,9 +3,21 @@ import { Box } from "@mui/material";
 import SearchBar from './SearchBar';
 
 /**
- * Компонент Header отображает верхнюю часть страницы, включая панель поиска.
+ * Интерфейс для пропсов компонента Header.
+ *
+ * @property {() => void} onSearch - Функция, вызываемая при поиске.
  */
-const Header: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
+interface HeaderProps {
+    onSearch: () => void;
+}
+
+/**
+ * Компонент Header отображает верхнюю часть страницы, включая панель поиска.
+ *
+ * @param {HeaderProps} props - Пропсы, содержащие функцию onSearch для обработки события поиска.
+ * @returns {JSX.Element} - Возвращает JSX элемент Header.
+ */
+const Header: React.FC<HeaderProps> = ({ onSearch }) => {
     return (
         <Box
             sx={{
@@ -23,3 +35,4 @@ const Header: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
 };
 
 export default Header;
+
