@@ -1,46 +1,48 @@
-# Getting Started with Create React App
+# О проекте
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- **Описание**: Это веб-приложение для поиска репозиториев GitHub с использованием GitHub REST API. Оно включает функции пагинации и сортировки с возможностью выбора направления сортировки по следующим столбцам: число звёзд, число форков, дата обновления.
+- **Язык программирования**: В качестве основного языка программирования используется TypeScript.
+- **Стилизация**: Проект использует Sass для стилизации, а также CSS Modules для модульной и изолированной стилизации. Кроме того, используется библиотека компонентов MUI (Material-UI) для создания консистентного и настраиваемого интерфейса.
+- **Управление состоянием**: Redux Toolkit используется для управления глобальным состоянием и эффективной работы с загрузкой данных из API.
+- **Качество кода**: Все публичные типы, свойства и функции тщательно документированы с помощью комментариев, что обеспечивает ясность и поддерживаемость кода.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Доступные команды
+
+В каталоге проекта вы можете выполнить следующие команды:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Запускает приложение в режиме разработки.\
+Откройте [http://localhost:3000](http://localhost:3000), чтобы просмотреть его в браузере.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Страница будет перезагружаться при внесении изменений.\
+Вы также увидите любые ошибки линтера в консоли.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Запускает тестовый раннер в интерактивном режиме наблюдения.\
+Смотрите раздел о [запуске тестов](https://facebook.github.io/create-react-app/docs/running-tests) для получения дополнительной информации.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Собирает приложение для продакшена в папку `build`.\
+Корректно объединяет React в режиме продакшена и оптимизирует сборку для лучшей производительности.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Сборка минимизируется, и имена файлов включают хэши.\
+Ваше приложение готово к развертыванию!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Смотрите раздел о [развертывании](https://facebook.github.io/create-react-app/docs/deployment) для получения дополнительной информации.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Внимание: это необратимая операция. После выполнения `eject` нельзя вернуться обратно!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Если вас не устраивают инструменты сборки и конфигурации по умолчанию, вы можете выполнить команду `eject` в любой момент. Эта команда удалит единственную зависимость сборки из вашего проекта.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Вместо этого она скопирует все конфигурационные файлы и транзитивные зависимости (webpack, Babel, ESLint и т. д.) прямо в ваш проект, так что вы сможете полностью управлять ими. Все команды, кроме `eject`, будут продолжать работать, но теперь они будут указывать на скопированные скрипты, чтобы вы могли их настроить. В этом случае вы будете работать самостоятельно.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Вам не нужно использовать `eject`. Подготовленный набор функций подходит для небольших и средних развертываний, и вы не должны чувствовать себя обязанными использовать эту функцию. Однако мы понимаем, что этот инструмент не будет полезен, если вы не сможете настроить его, когда будете готовы к этому.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
